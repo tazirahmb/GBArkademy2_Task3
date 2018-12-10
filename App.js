@@ -66,9 +66,14 @@ export default class App extends Component {
 
     // console.log(index);
 
-    axios.delete('https://jsonplaceholder.typicode.com/todos/' + (index+1))
+    axios.delete('https://jsonplaceholder.typicode.com/todos/' + (index+1).toString())
     .then((res) => {
-      console.log(res); //mau res juga hasilnya bakalan sama aja 
+      //mau res juga hasilnya bakalan sama aja (iya kan? masih galau juga ane)
+      console.log('Data di JSONPlaceholder :'); 
+      console.log(res); 
+
+      console.log('Data di Device :'); 
+      console.log(this.state.listan); 
     })
     .catch((err) => {
       console.log(err);
