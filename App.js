@@ -64,15 +64,16 @@ export default class App extends Component {
     var listNumpang = [...this.state.listan]
     let index = listNumpang.indexOf(tulisan);
 
-    
-    axios.delete('https://jsonplaceholder.typicode.com/todos/' + index)
+    // console.log(index);
+
+    axios.delete('https://jsonplaceholder.typicode.com/todos/' + (index+1))
     .then((res) => {
-      console.log(res);
+      console.log(res); //mau res juga hasilnya bakalan sama aja 
     })
     .catch((err) => {
       console.log(err);
     }) ;
-    
+
     listNumpang.splice(index, 1);
     this.setState({listan: listNumpang});
     console.log('deleted');
