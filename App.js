@@ -41,10 +41,8 @@ export default class App extends Component {
     })
   }
    
-  //nambah pake axios post
   handleClick = () => {
     axios.post('https://jsonplaceholder.typicode.com/todos', {
-      //userId: (id-(id%20)),
       title: this.state.text
     })
     .then((res) => {
@@ -64,11 +62,9 @@ export default class App extends Component {
     var listNumpang = [...this.state.listan]
     let index = listNumpang.indexOf(tulisan);
 
-    // console.log(index);
-
     axios.delete('https://jsonplaceholder.typicode.com/todos/' + (index+1).toString())
     .then((res) => {
-      //mau res juga hasilnya bakalan sama aja (iya kan? masih galau juga ane)
+      //===========Log
       console.log('Data di JSONPlaceholder :'); 
       console.log(res); 
 
@@ -87,65 +83,59 @@ export default class App extends Component {
   render() {
     return (
       <Container>
-      <Header style={{backgroundColor: 'black'}} androidStatusBarColor='#222' >
-        <Left/>
-        <Body>
-          <Title>TO-DO</Title>
-        </Body>
-        <Right/>
-      </Header>
+        <Header style={{backgroundColor: 'black'}} androidStatusBarColor='#222' >
+          <Left/>
+          <Body>
+            <Title>TO-DO</Title>
+          </Body>
+          <Right/>
+        </Header>
 
-      <Content>
-         <Row  style={style.inputan}>
-          <Col size={3}>
-
-          <TextInput
-            ref={input => {this.textInputan = input}}
-            style={{borderBottomColor: '#AAA', borderBottomWidth: 0.5, marginRight: 8}}
-            placeholder='type here...'
-            onChangeText={(text) => this.setState({text})}
-            ></TextInput>
+        <Content>
+          <Row  style={style.inputan}>
+            <Col size={3}>
+              <TextInput
+                ref={input => {this.textInputan = input}}
+                style={style.textInput}
+                placeholder='type here...'
+                onChangeText={(text) => this.setState({text})}
+                ></TextInput>
             </Col>
             <Col size={1}>
-          <Button
-            
-              title="Submit"
-              color="black"
-              onPress={this.handleClick}
-              ></Button>
-              </Col>
-        </Row>
+              <Button
+                  title="Submit"
+                  color="black"
+                  onPress={this.handleClick}
+                  ></Button>
+            </Col>
+          </Row>
 
-        <Row>
-          <FlatList
-            data={this.state.listan}
-            renderItem={({item}) => 
-            <ListItem>
-            <TouchableOpacity onLongPress={() => this.deleteItem(item)}>
-              <Text>{item.title}</Text>
-            </TouchableOpacity>
-            </ListItem>}
-          />
-        </Row>
-      </Content>
+          <Row>
+            <FlatList
+              inverted
+              data={this.state.listan}
+              renderItem={({item}) => 
+                <ListItem>
+                  <TouchableOpacity onLongPress={() => this.deleteItem(item)}>
+                    <Text>{item.title}</Text>
+                  </TouchableOpacity>
+                </ListItem>
+            }/>
+          </Row>
+        </Content>
+
   </Container>
     );
   }
 }
 
 const style = StyleSheet.create({
-  container: {
-    margin: 16,
-    display: 'flex'
-  },
   inputan: {
     padding: 16
   },
-  listItem: {
-    paddingVertical: 16,
-    borderTopWidth: 0.5,
-    borderTopColor: '#AAA',
-    borderBottomWidth: 0.5,
+  textInput: {
     borderBottomColor: '#AAA',
+    borderBottomWidth: 0.5,
+    marginRight: 8
   }
 })
