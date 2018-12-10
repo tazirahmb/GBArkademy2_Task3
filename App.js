@@ -16,7 +16,6 @@ import {
   Button,
   FlatList,
   Text,
-  View,
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
@@ -44,13 +43,36 @@ export default class App extends Component {
    
   //nambah pake axios post
   handleClick = () => {
-    this.setState({listan: [...this.state.listan, this.state.text]});
-    console.log(this.state.listan[this.state.listan.length - 1] + ' berhasil dimasukkan');
+    axios.post('https://jsonplaceholder.typicode.com/todos', {
+      //userId: (id-(id%20)),
+      title: this.state.text
+    })
+    .then((res) => {
+      console.log(res);
+      this.setState({listan: [...this.state.listan, {title: this.state.text}]});
+      console.log(this.state.listan[this.state.listan.length - 1].title + ' berhasil dimasukkan');
+      this.textInputan.clear();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    
   }
-  
+
   deleteItem = (tulisan) => {
+    
     var listNumpang = [...this.state.listan]
     let index = listNumpang.indexOf(tulisan);
+
+    
+    axios.delete('https://jsonplaceholder.typicode.com/todos/' + index)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    }) ;
+    
     listNumpang.splice(index, 1);
     this.setState({listan: listNumpang});
     console.log('deleted');
@@ -59,7 +81,8 @@ export default class App extends Component {
   render() {
     return (
       <Container>
-      <Header style={{backgroundColor: 'black'}} androidStatusBarColor='#333'>
+      <Header style={{backgroundColor: 'black'}} androidStatusBarColor='#222' >
+        <Left/>
         <Body>
           <Title>TO-DO</Title>
         </Body>
@@ -69,7 +92,9 @@ export default class App extends Component {
       <Content>
          <Row  style={style.inputan}>
           <Col size={3}>
+
           <TextInput
+            ref={input => {this.textInputan = input}}
             style={{borderBottomColor: '#AAA', borderBottomWidth: 0.5, marginRight: 8}}
             placeholder='type here...'
             onChangeText={(text) => this.setState({text})}
@@ -77,6 +102,7 @@ export default class App extends Component {
             </Col>
             <Col size={1}>
           <Button
+            
               title="Submit"
               color="black"
               onPress={this.handleClick}
